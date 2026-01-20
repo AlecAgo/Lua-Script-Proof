@@ -29,9 +29,6 @@ local function isLoading(): boolean
 	return player:GetAttribute("LoadingScreenActive") == true
 end
 
--- =========================
--- Robust local visibility
--- =========================
 local visibilityConns: {RBXScriptConnection} = {}
 local forceHideConn: RBXScriptConnection? = nil
 local VIS_REAPPLY_INTERVAL = 0.35 -- seconds (keeps it "for sure" even if something resets it)
@@ -60,8 +57,6 @@ local function applyLocalHideToInstance(inst: Instance, isFirstPerson: boolean)
 		return
 	end
 
-	-- NOTE: SurfaceAppearance has no Enabled property.
-	-- We rely on hiding the parent BasePart (MeshPart) instead.
 end
 
 local function setLocalVisibility(isFirstPerson: boolean)
@@ -72,7 +67,6 @@ local function setLocalVisibility(isFirstPerson: boolean)
 		applyLocalHideToInstance(inst, isFirstPerson)
 	end
 
-	-- Also apply to direct children (covers rare cases where something is not in descendants yet)
 	for _, inst in ipairs(character:GetChildren()) do
 		applyLocalHideToInstance(inst, isFirstPerson)
 	end
@@ -106,9 +100,7 @@ local function bindVisibilityHooks()
 	end)
 end
 
--- =========================
--- Zoom
--- =========================
+
 local ZOOM_KEY = Enum.KeyCode.V
 local ZOOM_MULTIPLIER = 0.62
 local ZOOM_IN_SPEED = 18
@@ -121,9 +113,7 @@ local function isZoomHeld(): boolean
 	return player:GetAttribute("ZoomHeld") == true
 end
 
--- =========================
--- Mouse gate
--- =========================
+
 local mouseGateConn: RBXScriptConnection?
 
 local function applyMouseForFirstPerson()
